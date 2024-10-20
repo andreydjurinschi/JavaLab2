@@ -8,18 +8,26 @@
 import java.util.Scanner;
 public class Program {
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
-        String[] productNames;
-        double price;
-        double minPrice;
-        double maxPrice;
 
-        System.out.print("Введите желаемое кол-во товаров: ");
-        int numOfProducts = scanner.nextInt();
-        productNames = new String[numOfProducts];
+            System.out.println("Введите название продукта: ");
+            String name = scanner.nextLine();
+            System.out.println("Введите цену продукта: ");
+            double price = scanner.nextDouble();
+            System.out.println("Введите мин цену продукта: ");
+            double minPrice = scanner.nextDouble();
+            System.out.println("Введите макс цену продукта: ");
+            double maxPrice = scanner.nextDouble();
+            Product product = new Product(name, price, minPrice, maxPrice);
 
-
+        try {
+            System.out.println("Введите цену на проверку для продукта " + product.getProductName());
+            double CheckPrice = scanner.nextDouble();
+            product.ValidatePrice(CheckPrice);
+            System.out.print("Цены введены в корректном диапазоне");
+        } catch (IncorrectPriceException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
