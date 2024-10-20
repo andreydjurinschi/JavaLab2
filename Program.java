@@ -8,7 +8,18 @@
 import java.util.Scanner;
 public class Program {
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
         String[] productNames;
+        double price;
+        double minPrice;
+        double maxPrice;
+
+        System.out.print("Введите желаемое кол-во товаров: ");
+        int numOfProducts = scanner.nextInt();
+        productNames = new String[numOfProducts];
+
+
     }
 }
 
