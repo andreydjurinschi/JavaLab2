@@ -6,28 +6,36 @@
 Исключение: с консоли вводится наименование товара и его цена, данные записываются в массивы. В программе имеется информация о товаре и о диапазоне цен на данный товар. Добиться ввода только цен в диапазоне, допустимом для соответствующего товара.*/
 
 import java.util.Scanner;
-public class Program {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import java.util.ArrayList;
+import java.util.List;
+public class ProductManager {
+    private final List<Product> products = new ArrayList<>();
+    private final List<Double> prices = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
 
+    public void addProduct(String name, double minPrice, double maxPrice){
+        products.add(new Product(name,minPrice, maxPrice));
+    }
+
+    public void priceChecker() throws IncorrectPriceException{
+        try {
             System.out.println("Введите название продукта: ");
             String name = scanner.nextLine();
             System.out.println("Введите цену продукта: ");
             double price = scanner.nextDouble();
-            System.out.println("Введите мин цену продукта: ");
+            System.out.println("Введите минимальную цену продукта: ");
             double minPrice = scanner.nextDouble();
-            System.out.println("Введите макс цену продукта: ");
+            System.out.println("Введите максимальную цену продукта: ");
             double maxPrice = scanner.nextDouble();
-            Product product = new Product(name, price, minPrice, maxPrice);
-
-        try {
-            System.out.println("Введите цену на проверку для продукта " + product.getProductName());
-            double CheckPrice = scanner.nextDouble();
-            product.ValidatePrice(CheckPrice);
-            System.out.print("Цены введены в корректном диапазоне");
+            Product product = new Product(name, minPrice, maxPrice);
         } catch (IncorrectPriceException e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
+    }
+
+
+    public static void main(String[] args) {
+
     }
 }
 
