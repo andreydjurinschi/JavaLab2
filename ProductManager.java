@@ -1,42 +1,60 @@
-/*4. Лабораторная работа №2. Создание и обработка собственных исключений.
-В программе требуется:
-·Создать собственное исключение (class).
-·Создать метод (throw), который может возбуждать это исключение(throws).
-·Написать метод, перехватывающий и обрабатывающий исключение (try-catch), возбуждаемое другим методом.
-Исключение: с консоли вводится наименование товара и его цена, данные записываются в массивы. В программе имеется информация о товаре и о диапазоне цен на данный товар. Добиться ввода только цен в диапазоне, допустимом для соответствующего товара.*/
-
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 public class ProductManager {
     private final List<Product> products = new ArrayList<>();
-    private final List<Double> prices = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-    public void addProduct(String name, double minPrice, double maxPrice){
-        products.add(new Product(name,minPrice, maxPrice));
+    public void addProductToList(String name, double minPrice, double maxPrice) {
+        products.add(new Product(name, minPrice, maxPrice));
     }
 
-    public void priceChecker() throws IncorrectPriceException{
-        try {
-            System.out.println("Введите название продукта: ");
-            String name = scanner.nextLine();
-            System.out.println("Введите цену продукта: ");
-            double price = scanner.nextDouble();
-            System.out.println("Введите минимальную цену продукта: ");
-            double minPrice = scanner.nextDouble();
-            System.out.println("Введите максимальную цену продукта: ");
-            double maxPrice = scanner.nextDouble();
-            Product product = new Product(name, minPrice, maxPrice);
-        } catch (IncorrectPriceException e) {
-            e.getMessage();
+    public Product createProduct() {
+        System.out.println("Введите название продукта: ");
+        String name = scanner.nextLine();
+        System.out.println("Введите минимальную цену продукта: ");
+        double minPrice = scanner.nextDouble();
+        System.out.println("Введите максимальную цену продукта: ");
+        double maxPrice = scanner.nextDouble();
+        scanner.nextLine();
+        return new Product(name, minPrice, maxPrice);
+    }
+
+    public void createAndAdd() {
+        System.out.print("Введите количество продуктов: ");
+        int numOfProducts = scanner.nextInt();
+        scanner.nextLine();
+        for (int i = 0; i < numOfProducts; i++) {
+            System.out.println("Продукт " + (i + 1) + ":");
+            Product product = createProduct();
+            addProductToList(product.getProductName(), product.getMinPrice(), product.getMaxPrice());
+            System.out.println("Продукт " + product.getProductName() + " создан");
+
+        }
+    }
+    public void priceChecker(){
+        for(Product product : products){
+            boolean valid = true;
+            while (valid) {
+                try {
+                    System.out.println("Введите цену для проверки для " + product.getProductName() + ":");
+                    double price = scanner.nextDouble();
+                    product.validatePrice(price);
+                    valid = false;
+                } catch (IncorrectPriceException e) {
+                    System.out.println("Ошибка: " + e.getMessage());
+                }
+            }
+        }
+    }
+    public void printList(){
+        for (Product product: products){
+            System.out.println("Название продукта: " + product.getProductName() +
+                    ", минимальная цена: " + product.getMinPrice() +
+                    ", максимальная цена:  " + product.getMaxPrice() +
+                    ", фактическая цена: " + product.getPrice());
         }
     }
 
-
-    public static void main(String[] args) {
-
-    }
 }
-
-
